@@ -13,12 +13,6 @@
 <body>
 <h1>Ma todolist</h1>
 
-<ul id="zone_message">
-    <% todolist.forEach(function(todo) { %>
-        <li onclick="suppress(this);"><a>✘</a> <%= todo %></li>
-    <% }); %>
-</ul>
-
 <form action="/" method="post" id="formulaire_message">
     <p>
         <label for="message">Que dois-je faire ?</label>
@@ -28,6 +22,23 @@
 </form>
 
 <button id="reset" type="reset">enlever tout</button>
+
+<ul id="zone_message">
+    <% todolist.forEach(function(todo) { %>
+        <li onclick="suppress(this);"><a>✘</a> <%= todo %></li>
+    <% }); %>
+</ul>
+
+<h1>Ma fileUpload</h1>
+
+<form ref='uploadForm'
+      id='uploadForm'
+      action='http://localhost:8081/upload'
+      method='post'
+      encType="multipart/form-data">
+    <input type="file" name="sampleFile" />
+    <input type='submit' value='Upload!' />
+</form>
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
