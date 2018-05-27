@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ma todolist</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Ma todolist</h1>
+
+<ul id="zone_message">
+    <% todolist.forEach(function(todo) { %>
+        <li onclick="suppress(this);"><a>✘</a> <%= todo %></li>
+    <% }); %>
+</ul>
+
+<form action="/" method="post" id="formulaire_message">
+    <p>
+        <label for="message">Que dois-je faire ?</label>
+        <input type="text" name="message" id="message" autofocus/>
+        <input type="submit"/>
+    </p>
+</form>
+
+<button id="reset" type="reset">enlever tout</button>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    // Connexion à socket.io
+    var socket = io.connect('http://localhost:8081');
+
+    // Quand on reçoit un message, on l'insère dans la page
+    socket.on('add_message', function (data) {
+        insereMessage(data.message)
+    });
+
+    socket.on('remove_message', function (data) {
+        removeMessage(data.index)
+    });
+
+    socket.on('remove_all', function () {
+        removeAll();
+    });
+
+    $("#reset").click(function() {
+        socket.emit('remove_all');
+    });
+
+    // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+    $('#formulaire_message').submit(function () {
+        var message = $('#message').val();
+        socket.emit('add_message', message);
+        $('#message').val('').focus();
+        return false;
+    });
+
+    function suppress(element) {
+        var index = $("li").index(element)+1;
+        socket.emit('remove_message', index);
+    }
+
+    // Ajoute un message dans la page
+    function insereMessage(message) {
+        var zoneMessage = $('#zone_message');
+        zoneMessage.append('<li onclick="suppress(this);"><a>✘</a> ' + message + '</li>');
+    }
+
+    function removeMessage(index) {
+        $("#zone_message li").eq(index-1).remove();
+    }
+
+    function removeAll(){
+        $("#zone_message").empty();
+    }
+</script>
+</body>
+</html>
