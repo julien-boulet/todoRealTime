@@ -29,20 +29,26 @@
     <% }); %>
 </ul>
 
-<h1>Ma fileUpload</h1>
+<h1>Mon fileUpload</h1>
 
-<form ref='uploadForm'
-      id='uploadForm'
-      action='http://localhost:8081/upload'
-      method='post'
-      encType="multipart/form-data">
-    <input type="file" name="sampleFile" />
-    <input type='submit' value='Upload!' />
+<form id="frmUploader" enctype="multipart/form-data" action="api/Upload/" method="post">
+    <input type="file" name="imgUploader" multiple />
+    <input type="submit" name="submit" id="btnSubmit" value="Upload" />
 </form>
 
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<div id="images"></div>
+
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.2.2/dist/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    $(document).ready(function () {
+        // bind to the form's submit event
+        $('#frmUploader').submit(function (e) {
+            e.preventDefault(); // prevent native submit
+            $(this).ajaxSubmit(options = {});
+        });
+    });
 
     // Connexion à socket.io
     var socket = io.connect('http://localhost:8081');
