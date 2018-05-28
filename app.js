@@ -7,6 +7,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 const io = require('socket.io').listen(server);
 const ent = require('ent');
+const fs = require('file-system');
 
 app.use(bodyParser.json());
 
@@ -32,6 +33,12 @@ app.get('/todo', function(req, res) {
         }
         io.emit('new_file', {fileName: fileName});
     });
+}).get('/images/:imageName', function(req, res) {
+    console.log('retrun ' + req.params.imageName);
+    const contentType = 'image/jpg';
+    var fileToLoad = fs.readFileSync('images/'+req.params.imageName);
+    res.writeHead(200, {'Content-Type':  contentType });
+    res.end(fileToLoad, 'binary');
 });
 
 io.sockets.on('connection', function (socket) {

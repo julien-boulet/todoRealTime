@@ -66,6 +66,11 @@
         removeAll();
     });
 
+    socket.on('new_file', function (data) {
+        $('#images').html('<img class="logo" src="http://localhost:8081/images/'+data.fileName+'" alt="My_Logo">')
+        console.log(data.fileName);
+    });
+
     $("#reset").click(function() {
         socket.emit('remove_all');
     });
