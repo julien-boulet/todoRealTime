@@ -14,5 +14,8 @@
         "start": "nodemon app.js"
     },
     "author": "Julien-boulet <julien.boulet.dev@gmail.com>",
-    "description": "Un super Chat temps réel avec socket.io"
+    "description": "Un super Chat temps réel avec socket.io",
+    "devDependencies": {
+        "prettier": "^1.13.2"
+    }
 }

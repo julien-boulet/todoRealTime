@@ -76,7 +76,7 @@
     });
 
     // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
-    $('#formulaire_message').submit(function () {
+    $('#formulaire_messagae').submit(function () {
         var message = $('#message').val();
         socket.emit('add_message', message);
         $('#message').val('').focus();
